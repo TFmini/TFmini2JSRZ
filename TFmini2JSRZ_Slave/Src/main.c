@@ -53,6 +53,7 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+#define I2C_ADDRESS 0x59
 
 uint8_t rx1Buffer[1];	//串口1 Buffer
 
@@ -118,6 +119,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
 	//串口测试, 115200bps, TX-PC, RX-TFmini
+	//I2C
+	i2cReadConfig();
+	
 	printf("Hello, JSRZ!\r\n");
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)rx1Buffer, 1);
 	
@@ -135,6 +139,8 @@ int main(void)
 	//HOUT
 	HAL_GPIO_WritePin(HOUT_GPIO_Port, HOUT_Pin, GPIO_PIN_SET);	//初始HOUT输出高
 	ledOff();
+	
+
 
   /* USER CODE END 2 */
 
@@ -151,6 +157,15 @@ int main(void)
 			tfminiOne.receiveComplete = 0;
 			//printf("(%d, %d)\r\n", tfminiOne.distance, tfminiOne.strength);
 		}
+		
+		//I2C数据输出
+		uint8_t i2cBuffer[4];
+		i2cBuffer[0] = tfminiOne.distance % 256;
+		i2cBuffer[1] = tfminiOne.distance / 256;
+		i2cBuffer[2] = tfminiOne.strength % 256;
+		i2cBuffer[3] = tfminiOne.strength / 256;
+		HAL_I2C_Slave_Transmit_IT(&hi2c1, (uint8_t*)i2cBuffer, 4);			
+		//HAL_I2C_Slave_Transmit(&hi2c1, (uint8_t*)i2cBuffer, 4, 100);
 		
 		
 		//每100ms获取一次电位器的值, 打印距离和阈值
@@ -206,15 +221,6 @@ int main(void)
 			HAL_GPIO_WritePin(HOUT_GPIO_Port, HOUT_Pin, GPIO_PIN_RESET);	//HOUT输出高
 			ledOff();
 		}
-		
-		
-		//I2C数据输出
-		uint8_t i2cBuffer[4];
-		i2cBuffer[0] = tfminiOne.distance % 256;
-		i2cBuffer[1] = tfminiOne.distance / 256;
-		i2cBuffer[2] = tfminiOne.strength % 256;
-		i2cBuffer[3] = tfminiOne.strength / 256;
-		HAL_I2C_Slave_Transmit_IT(&hi2c1, (uint8_t*)i2cBuffer, 4);			
 		
   }
   /* USER CODE END 3 */

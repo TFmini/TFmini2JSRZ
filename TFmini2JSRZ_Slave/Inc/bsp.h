@@ -4,6 +4,7 @@
 #include "main.h"
 #include "stm32f0xx_hal.h"
 #include "gpio.h"
+#include "i2c.h"
 
 //Soft Timer
 typedef struct {
@@ -23,6 +24,9 @@ void getTFminiOneData(TFmini* tfmini, char rxBuffer);
 void ledOn(void);
 void ledOff(void);
 void ledToggle(void);
+
+//I2C
+void i2cReadConfig(void);
 	
 
 #endif

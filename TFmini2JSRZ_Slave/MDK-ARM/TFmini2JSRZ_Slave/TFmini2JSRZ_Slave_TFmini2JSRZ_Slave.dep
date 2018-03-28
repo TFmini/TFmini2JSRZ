@@ -239,7 +239,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x5A14F3E1)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h)(0x5A14F3E1)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h)(0x5A14F3E1)
 I (../Inc/gpio.h)(0x5ABB8C0B)
-F (../Src/i2c.c)(0x5ABB8C0C)(-c --cpu Cortex-M0 -D__MICROLIB -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include --C99-I D:\Code\TFmini2JSRZ\Release\TFmini2JSRZ_Slave\MDK-ARM\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o tfmini2jsrz_slave\i2c.o --depend tfmini2jsrz_slave\i2c.d)
+F (../Src/i2c.c)(0x5ABBA0BA)(-c --cpu Cortex-M0 -D__MICROLIB -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include --C99-I D:\Code\TFmini2JSRZ\Release\TFmini2JSRZ_Slave\MDK-ARM\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o tfmini2jsrz_slave\i2c.o --depend tfmini2jsrz_slave\i2c.d)
 I (../Inc/i2c.h)(0x5ABB8C0C)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5A14F3E1)
 I (../Inc/stm32f0xx_hal_conf.h)(0x5ABB8C0D)
@@ -274,7 +274,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x5A14F3E1)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h)(0x5A14F3E1)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h)(0x5A14F3E1)
 I (../Inc/gpio.h)(0x5ABB8C0B)
-F (../Src/main.c)(0x5ABB8F55)(-c --cpu Cortex-M0 -D__MICROLIB -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include --C99-I D:\Code\TFmini2JSRZ\Release\TFmini2JSRZ_Slave\MDK-ARM\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o tfmini2jsrz_slave\main.o --depend tfmini2jsrz_slave\main.d)
+F (../Src/main.c)(0x5ABBA125)(-c --cpu Cortex-M0 -D__MICROLIB -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include --C99-I D:\Code\TFmini2JSRZ\Release\TFmini2JSRZ_Slave\MDK-ARM\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o tfmini2jsrz_slave\main.o --depend tfmini2jsrz_slave\main.d)
 I (../Inc/main.h)(0x5ABB8C0D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5A14F3E1)
 I (../Inc/stm32f0xx_hal_conf.h)(0x5ABB8C0D)
@@ -313,9 +313,9 @@ I (../Inc/i2c.h)(0x5ABB8C0C)
 I (../Inc/tim.h)(0x5ABB8C0C)
 I (../Inc/usart.h)(0x5ABB8C0C)
 I (../Inc/gpio.h)(0x5ABB8C0B)
-I (../Inc/bsp.h)(0x5ABB8CDE)
-F (..\Src\bsp.c)(0x5ABB8CD3)(-c --cpu Cortex-M0 -D__MICROLIB -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include --C99-I D:\Code\TFmini2JSRZ\Release\TFmini2JSRZ_Slave\MDK-ARM\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o tfmini2jsrz_slave\bsp.o --depend tfmini2jsrz_slave\bsp.d)
-I (../Inc/bsp.h)(0x5ABB8CDE)
+I (../Inc/bsp.h)(0x5ABBA125)
+F (..\Src\bsp.c)(0x5ABBA125)(-c --cpu Cortex-M0 -D__MICROLIB -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include --C99-I D:\Code\TFmini2JSRZ\Release\TFmini2JSRZ_Slave\MDK-ARM\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o tfmini2jsrz_slave\bsp.o --depend tfmini2jsrz_slave\bsp.d)
+I (../Inc/bsp.h)(0x5ABBA125)
 I (../Inc/main.h)(0x5ABB8C0D)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5A14F3E1)
 I (../Inc/stm32f0xx_hal_conf.h)(0x5ABB8C0D)
@@ -349,6 +349,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h)(0x5A14F3E1)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h)(0x5A14F3E1)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h)(0x5A14F3E1)
 I (../Inc/gpio.h)(0x5ABB8C0B)
+I (../Inc/i2c.h)(0x5ABB8C0C)
 F (startup_stm32f030x6.s)(0x5ABB8C12)(--cpu Cortex-M0 --apcs=interwork --pd "__MICROLIB SETA 1"-I D:\Code\TFmini2JSRZ\Release\TFmini2JSRZ_Slave\MDK-ARM\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include--pd "__UVISION_VERSION SETA 520" --pd "_RTE_ SETA 1" --pd "STM32F030x6 SETA 1"-o tfmini2jsrz_slave\startup_stm32f030x6.o --depend tfmini2jsrz_slave\startup_stm32f030x6.d)
 F (../Src/system_stm32f0xx.c)(0x5A14F3C5)(-c --cpu Cortex-M0 -D__MICROLIB -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include --C99-I D:\Code\TFmini2JSRZ\Release\TFmini2JSRZ_Slave\MDK-ARM\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0\Device\Include-D__UVISION_VERSION="520" -D_RTE_ -DSTM32F030x6 -DUSE_HAL_DRIVER -DSTM32F030x6-o tfmini2jsrz_slave\system_stm32f0xx.o --depend tfmini2jsrz_slave\system_stm32f0xx.d)
 I (../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h)(0x5A14F3C5)
