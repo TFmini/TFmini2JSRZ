@@ -3,6 +3,7 @@ TFmini, UART to I2C, Switching Value. STM32F030F4P6 is I2C Slave. STM32 Or Ardui
 
 - [PCB](#pcb)  
 - [Threshold](#threshold)  
+- [Program](#program)  
 
 
 
@@ -48,5 +49,7 @@ miniU2S 板载 CP2104 芯片用于USB转串口, CP2104的驱动可以下载安�
 
 
 
+## Program
+TFmini2JSRZ板子的程序是 [TFmini2JSRZ_Slave](/TFmini2JSRZ_Slave). 可以直接使用J-LINK或者ST-Link烧录 `TFmini2JSRZ\TFmini2JSRZ_Slave\MDK-ARM\TFmini2JSRZ_Slave` 下的 `TFmini2JSRZ_Slave.hex` 文件.  
 
-
+I2C从机的地址是 0x59, 也就是说 读地址是 179(0x59 << 1 + 1). 每次发送4个字节, 依次是 distance低8位, distance高8位, strength低8位, strength高8位.  
