@@ -1,0 +1,14 @@
+Output: Gerber Files
+Type  : Gerber
+From  : Project [TFmini2JSRZ.PrjPCB]
+   Generated File[TFmini2JSRZ.GD1]
+   Generated File[TFmini2JSRZ.GG1]
+   Generated File[TFmini2JSRZ.RUL]
+   Generated File[TFmini2JSRZ.EXTREP]
+   Generated File[TFmini2JSRZ.REP]
+
+
+Files Generated   : 5
+Documents Printed : 0
+
+Finished Output Generation At 7:18:17 PM On 3/28/2018
