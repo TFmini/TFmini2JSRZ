@@ -133,4 +133,4 @@ void loop() {
 
 数据如图, 左边为实际距离, 中间为信号品质, 右边为通信频率：  
 
-![Arduino](/Assets/Arduino.png)  
+![Arduino](/Assets/arduino.png)  
