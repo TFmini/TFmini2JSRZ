@@ -1,9 +1,9 @@
 #include "bsp.h"
 
-void getTFminiOneData(TFmini* tfmini, char rxBuffer) {
-	static char rx[9];
-	static char index = 0;
-	static int checksum = 0;
+void getTFminiOneData(TFmini* tfmini, uint8_t rxBuffer) {
+	static uint8_t rx[9];
+	static uint8_t index = 0;
+	static uint16_t checksum = 0;
 	rx[index] = rxBuffer;
 	if(rx[0] != 0x59) {
 		index = 0;
@@ -35,10 +35,10 @@ void ledToggle(void) {
 }
 
 //void i2cReadConfig(uint32_t i2cAddress) {
-void i2cReadConfig(void) {
+void i2cReadConfig(uint16_t address) {
   hi2c1.Instance = I2C1;
   hi2c1.Init.Timing = 0x00201D2B;
-  hi2c1.Init.OwnAddress1 = 179;
+  hi2c1.Init.OwnAddress1 = address * 2;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
   hi2c1.Init.OwnAddress2 = 0xFF;

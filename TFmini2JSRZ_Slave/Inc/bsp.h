@@ -18,7 +18,8 @@ typedef struct {
   int strength;
   uint8_t receiveComplete;
 }TFmini;
-void getTFminiOneData(TFmini* tfmini, char rxBuffer);
+
+void getTFminiOneData(TFmini* tfmini, uint8_t rxBuffer);
 
 //LED
 void ledOn(void);
@@ -26,7 +27,7 @@ void ledOff(void);
 void ledToggle(void);
 
 //I2C
-void i2cReadConfig(void);
+void i2cReadConfig(uint16_t address);
 	
 
 #endif

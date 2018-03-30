@@ -1,5 +1,5 @@
 # TFmini2JSRZ
-TFmini, UART to I2C, Switching Value. STM32F030F4P6 is I2C Slave. STM32 Or Arduino is I2C Master.  
+TFmini, UART to I2C, Switching Value. STM32F030F4P6 is I2C Slave. Arduino is I2C Master.  
 
 - [PCB](#pcb)  
 - [Threshold](#threshold)  
@@ -32,24 +32,105 @@ TFmini测距超过距离阈值输出低(0V), 低于距离阈值输出高(3.3V).
 
 拨码开关 | 阈值 
 ---------|----------
- 00(Off Off) | 通过电位器调节(0.3~12m), 顺时针阈值增大 
+ 00(Off Off) | 通过电位器调节(0.3~12m), 顺时针阈值增大, 观察LED指示灯的亮灭设置合适的阈值 
  01(Off On) | 2m 
  10(On Off) | 3m 
  11(On On) | 5m 
-
-用电位器设置阈值时(拨码开关拨到00), 可以通过miniU2S板连接到PC查看阈值信息:  
-
-![miniU2S](/Assets/miniU2S.png)  
-
-miniU2S 板载 CP2104 芯片用于USB转串口, CP2104的驱动可以下载安装 [CP210x_Driver](https://cn.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers).  
-
-打开SSCOM, 选择端口号, 波特率115200, 打开串口, 图中的744即为电位器阈值:  
-
-![SSCOM](/Assets/sscom.png)  
 
 
 
 ## Program
 TFmini2JSRZ板子的程序是 [TFmini2JSRZ_Slave](/TFmini2JSRZ_Slave). 可以直接使用J-LINK或者ST-Link烧录 `TFmini2JSRZ\TFmini2JSRZ_Slave\MDK-ARM\TFmini2JSRZ_Slave` 下的 `TFmini2JSRZ_Slave.hex` 文件.  
 
-I2C从机的地址是 0x59, 也就是说 读地址是 179(0x59 << 1 + 1). 每次发送4个字节, 依次是 distance低8位, distance高8位, strength低8位, strength高8位.  
+I2C从机地址 0x59(89), 写地址 178, 读地址是 179(0x59 << 1 + 1). Master向Slave(TFmini2JSRZ)发送 0x42(66), Slave(TFmini2JSRZ)每次返回4个字节, 依次是 distance低8位, distance高8位, strength低8位, strength高8位.   
+
+逻辑分析仪抓取的I2C主从通信数据如下:  
+
+![logic](/Assets/logic.png)  
+
+以Arduino作I2C主机为例, 连接关系:  
+
+
+TFmini2JSRZ | Arduino 
+---------|----------
+ GND | GND 
+ SCL | SCL 
+ SDA | SDA 
+
+读取示例如下:  
+
+```Arduino
+#include <Wire.h>
+
+#define I2C_SLAVE_ADDR1  0x59 
+
+typedef struct {
+  char distanceLow;
+  char distanceHigh;
+  int distance;
+  char strengthLow;
+  char strengthHigh;
+  int strength;
+  boolean receiveComplete;
+}TFmini;
+
+TFmini TFminiOne = {0, 0, 0, 0, 0, 0, false};
+
+void setup() {
+  Wire.begin();   // join i2c bus (address optional for master)
+  Serial.begin(115200);
+}
+
+unsigned long lastTime = millis();
+unsigned int count = 0;
+unsigned int frequency = 0;
+
+void loop() {
+
+
+  if((millis() - lastTime) % 10 == 0) {
+    delay(1); //I2C Communication < 1ms. It will be run twice per 10 milliseconds if not delay(1)
+    
+    Wire.beginTransmission(I2C_SLAVE_ADDR1);
+    Wire.write(byte(0x42));
+    Wire.endTransmission();
+  
+    Wire.requestFrom(I2C_SLAVE_ADDR1, 4);    // request 4 bytes from slave device 
+    if(4 <= Wire.available()) {
+      TFminiOne.distanceLow = Wire.read();
+      TFminiOne.distanceHigh = Wire.read();
+      TFminiOne.strengthLow = Wire.read();
+      TFminiOne.strengthHigh = Wire.read(); 
+      TFminiOne.receiveComplete = true;
+    }
+  }
+  
+  if(TFminiOne.receiveComplete == true) {
+    TFminiOne.receiveComplete = false;
+    ++count;
+    
+    TFminiOne.distance = TFminiOne.distanceLow + TFminiOne.distanceHigh * 256;
+    TFminiOne.strength = TFminiOne.strengthLow + TFminiOne.strengthHigh * 256;
+    
+    Serial.print(TFminiOne.distance);
+    Serial.print("cm\t");
+    Serial.print("strength: ");
+    Serial.print(TFminiOne.strength);
+    Serial.print("\t");
+    Serial.print(frequency);
+    Serial.println("Hz");
+  }   
+
+  if(millis() - lastTime > 999) {
+      lastTime = millis();
+      frequency = count;
+      count = 0;
+  }
+
+}
+
+```   
+
+数据如图, 左边为实际距离, 中间为信号品质, 右边为通信频率：  
+
+![Arduino](/Assets/Arduino.png)  

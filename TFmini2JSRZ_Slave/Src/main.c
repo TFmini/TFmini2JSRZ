@@ -53,7 +53,10 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-#define I2C_ADDRESS 0x59
+//#define I2C_ADDRESS 0x0059
+
+uint8_t i2cRxBuffer[2];
+uint8_t i2cBuffer[4];
 
 uint8_t rx1Buffer[1];	//串口1 Buffer
 
@@ -89,7 +92,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	for(uint32_t j = 0; j < 2000000L; j++){}
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -118,20 +121,13 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 	
-	//串口测试, 115200bps, TX-PC, RX-TFmini
 	//I2C
-	i2cReadConfig();
-	
-	printf("Hello, JSRZ!\r\n");
-	HAL_UART_Receive_IT(&huart1, (uint8_t *)rx1Buffer, 1);
+	//i2cReadConfig(I2C_ADDRESS);
+	//HAL_I2C_Slave_Transmit_IT(&hi2c1, (uint8_t*)i2cBuffer, 4);	
 	
 	//TIM14, Timer Clock, 48MHz(48 000 000)
 	//Prescaler 4800 - 1, Counter Period 10 - 1, 定时1ms
 	HAL_TIM_Base_Start_IT(&htim14);	//开中断
-	
-	//softTimer: 1s
-	softTimer0.msSet = 1000;
-	softTimer0.enable = 1;	
 	
 	//adc0
 	HAL_ADC_Start_DMA(&hadc, adcValue, 10);
@@ -140,7 +136,18 @@ int main(void)
 	HAL_GPIO_WritePin(HOUT_GPIO_Port, HOUT_Pin, GPIO_PIN_SET);	//初始HOUT输出高
 	ledOff();
 	
-
+		//softTimer: 1s
+//	softTimer0.msSet = 100;
+//	softTimer0.enable = 1;	
+	
+	//串口测试, 115200bps, TX-PC, RX-TFmini	
+	//printf("Hello, JSRZ!\r\n");
+	HAL_UART_Receive_IT(&huart1, (uint8_t *)rx1Buffer, 1);
+	
+	HAL_Delay(22);
+	
+	//I2C
+	HAL_I2C_Slave_Receive_IT(&hi2c1, i2cRxBuffer, 1);
 
   /* USER CODE END 2 */
 
@@ -150,26 +157,10 @@ int main(void)
   {
   /* USER CODE END WHILE */
 
-  /* USER CODE BEGIN 3 */
-
-		//TFmini数据测试
-		if(tfminiOne.receiveComplete == 1) {
-			tfminiOne.receiveComplete = 0;
-			//printf("(%d, %d)\r\n", tfminiOne.distance, tfminiOne.strength);
-		}
-		
-		//I2C数据输出
-		uint8_t i2cBuffer[4];
-		i2cBuffer[0] = tfminiOne.distance % 256;
-		i2cBuffer[1] = tfminiOne.distance / 256;
-		i2cBuffer[2] = tfminiOne.strength % 256;
-		i2cBuffer[3] = tfminiOne.strength / 256;
-		HAL_I2C_Slave_Transmit_IT(&hi2c1, (uint8_t*)i2cBuffer, 4);			
-		//HAL_I2C_Slave_Transmit(&hi2c1, (uint8_t*)i2cBuffer, 4, 100);
-		
+  /* USER CODE BEGIN 3 */	
 		
 		//每100ms获取一次电位器的值, 打印距离和阈值
-		if(softTimer0.enable == 0) {
+		if(softTimer0.enable == 0) {		
 			softTimer0.msSet = 100;
 			softTimer0.enable = 1;
 			
@@ -181,14 +172,10 @@ int main(void)
 			adc0 /= 10;
 			RP = adc0 * 1200 / 4096;	//cm, 0~1200
 			RP = RP < 30 ? 30 : RP;	//cm, 30~1200
-			
-			printf("(distance: %d cm, threshold: %d cm)\r\n", tfminiOne.distance, distTV);
-			//可以通过万用表测电压得出这个阈值. 
-			//printf("adc0: %d\r\n", adc0);
-			
+					
 		}	//end softTimer0
 		
-	
+		
 		//根据拨码开关设定阈值
 		if(HAL_GPIO_ReadPin(SW1_GPIO_Port, SW1_Pin) == GPIO_PIN_SET) {	//off 0
 			if(HAL_GPIO_ReadPin(SW2_GPIO_Port, SW2_Pin) == GPIO_PIN_SET) {	//00
@@ -203,7 +190,26 @@ int main(void)
 			} else {	//11
 				distTV = TV_L;
 			}
-		}		
+		}	
+		
+		
+		
+		//TFmini数据测试
+		if(tfminiOne.receiveComplete == 1) {
+			tfminiOne.receiveComplete = 0;
+			//printf("(%d, %d)\r\n", tfminiOne.distance, tfminiOne.strength);
+			//printf("(%d, %d)\r\n", tfminiOne.distance, distTV);
+			i2cBuffer[0] = tfminiOne.distance % 256;
+			i2cBuffer[1] = tfminiOne.distance / 256;
+			i2cBuffer[2] = tfminiOne.strength % 256;
+			i2cBuffer[3] = tfminiOne.strength / 256;
+			//printf("(distance: %d cm, threshold: %d cm, %d)\r\n", tfminiOne.distance, distTV, i2cBuffer[0]);
+			//printf("(%d, %d)\r\n", tfminiOne.distance, distTV);
+		} else if(softTimer0.msSet == 50 && tfminiOne.distance == 0) {
+			//printf("(%d, %d)\r\n", tfminiOne.distance, distTV);
+			//printf("(distance: %d cm, threshold: %d cm)\r\n", tfminiOne.distance, distTV);
+		} else {
+		}			
 		
 		
 		//阈值处理
@@ -220,6 +226,7 @@ int main(void)
 			outStatus = 0;
 			HAL_GPIO_WritePin(HOUT_GPIO_Port, HOUT_Pin, GPIO_PIN_RESET);	//HOUT输出高
 			ledOff();
+		} else {
 		}
 		
   }
@@ -289,14 +296,29 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
+//I2C中断
+void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c) {
+	UNUSED(hi2c);
+	if(hi2c == &hi2c1) {
+		if(i2cRxBuffer[0] == 0x42) {
+			//while(HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY){}
+			HAL_I2C_Slave_Transmit(&hi2c1, i2cBuffer, 4, 10);
+		}
+		
+	}
+	HAL_I2C_Slave_Receive_IT(&hi2c1, i2cRxBuffer, 1);
+}
+
 //串口中断
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+	UNUSED(huart);
+	
 	if(huart == &huart1) {
 		__HAL_UART_CLEAR_PEFLAG(&huart1);
 		HAL_UART_Receive_IT(&huart1, rx1Buffer, 1);
 		//HAL_UART_Transmit(&huart1, rx1Buffer, 1, 10);	//echo
 		getTFminiOneData(&tfminiOne, rx1Buffer[0]);
-	}
+	}	//end huart1
 }
 
 //htim14中断, 1ms一次
@@ -317,10 +339,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	}	//end htim14
 }
 
-//拨码开关 上升下降沿中断
+//拨码开关 上升下降沿中断, 这里没有用
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if(GPIO_Pin == SW1_Pin) {
 	} else if(GPIO_Pin == SW2_Pin)  {
+	} else {
 	}
 }
 
