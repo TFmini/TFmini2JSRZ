@@ -224,7 +224,7 @@ int main(void)
 			softTimer1.enable = 1;
 		} else if(softTimer1.enable == 0 && outStatus == 1 && tfminiOne.distance < distTV + 5) {
 			outStatus = 0;
-			HAL_GPIO_WritePin(HOUT_GPIO_Port, HOUT_Pin, GPIO_PIN_RESET);	//HOUT输出高
+			HAL_GPIO_WritePin(HOUT_GPIO_Port, HOUT_Pin, GPIO_PIN_SET);	//HOUT输出高
 			ledOff();
 		} else {
 		}
